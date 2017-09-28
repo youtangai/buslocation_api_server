@@ -31,8 +31,8 @@ func GetInfo(c *gin.Context) {
 }
 
 // ScrapeInfos is hogehoge
-func ScrapeInfos(startID, endID string) ([]model.Info, error) {
-	var infos []model.Info
+func ScrapeInfos(startID, endID string) (map[int]model.Info, error) {
+	infos := map[int]model.Info{}
 	info := model.Info{}
 	doc, err := goquery.NewDocument(WEBHOST + INFOPATH + "?in=" + startID + "&out=" + endID)
 	if err != nil {
