@@ -13,8 +13,8 @@ func main() {
 			"message": "pong",
 		})
 	})
-	router.POST("/list", controller.GetBusStopList)
-	router.POST("/info", controller.GetInfo)
+	router.GET("/list", controller.GetBusStopList)
+	router.GET("/info", controller.GetInfo)
 
 	router.Run(":8080")
 }

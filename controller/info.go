@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"../japanese"
 	"../model"
+	"../sjis"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gin-gonic/gin"
@@ -42,7 +42,7 @@ func ScrapeInfos(startID, endID string) ([]model.Info, error) {
 
 	// Find the review items
 	doc.Find("table tr td").Each(func(i int, s *goquery.Selection) {
-		text, err := japanese.SjisToUTF8(s.Text())
+		text, err := sjis.SjisToUTF8(s.Text())
 		if err != nil {
 			log.Fatal(err)
 		}

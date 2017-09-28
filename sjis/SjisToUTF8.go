@@ -1,4 +1,4 @@
-package japanese
+package sjis
 
 import (
 	"io/ioutil"
@@ -8,7 +8,7 @@ import (
 	"golang.org/x/text/transform"
 )
 
-//SjisToUTF8 is hogehoge
+//SjisToUTF8 is hoge
 func SjisToUTF8(str string) (string, error) {
 	ret, err := ioutil.ReadAll(transform.NewReader(strings.NewReader(str), japanese.ShiftJIS.NewDecoder()))
 	if err != nil {
