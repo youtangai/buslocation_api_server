@@ -42,7 +42,7 @@ func ScrapeInfos(startID, endID string) (map[int]model.Info, error) {
 
 	// Find the review items
 	doc.Find("table tr td").Each(func(i int, s *goquery.Selection) {
-		text, err := sjis.SjisToUTF8(s.Text())
+		text, err := sjis.ToUTF8(s.Text())
 		if err != nil {
 			log.Fatal(err)
 		}

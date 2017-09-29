@@ -2,6 +2,7 @@ package config
 
 import "github.com/kelseyhightower/envconfig"
 
+//Configuration is hoge
 type Configuration struct {
 	RedisHost  string `envconfig:"REDIS_HOST" default:"localhost"`
 	RedisPort  string `envconfig:"REDIS_PORT" default:"6379"`

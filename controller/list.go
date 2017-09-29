@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/youtangai/buslocation_api_server/kvs"
+
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gin-gonic/gin"
 	"github.com/youtangai/buslocation_api_server/model"
@@ -26,6 +28,24 @@ func GetBusStopList(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	startList := result.StartMap
+	endList := result.EndMap
+	for key, value := range startList {
+		err := kvs.SetBusStopID(key, value)
+		if err != nil {
+			log.Fatal(err)
+			c.JSON(http.StatusInternalServerError, err)
+		}
+	}
+
+	for key, value := range endList {
+		err := kvs.SetBusStopID(key, value)
+		if err != nil {
+			log.Fatal(err)
+			c.JSON(http.StatusInternalServerError, err)
+		}
+	}
+
 	c.JSON(http.StatusOK, result)
 }
 
@@ -58,7 +78,7 @@ func ScrapeBusStopList(start, end string) (model.List, error) {
 				if !ok {
 					return
 				}
-				key, err := sjis.SjisToUTF8(s.Text())
+				key, err := sjis.ToUTF8(s.Text())
 				if err != nil {
 					log.Fatal(err)
 				}
@@ -70,7 +90,7 @@ func ScrapeBusStopList(start, end string) (model.List, error) {
 				if !ok {
 					return
 				}
-				key, err := sjis.SjisToUTF8(s.Text())
+				key, err := sjis.ToUTF8(s.Text())
 				if err != nil {
 					log.Fatal(err)
 				}
@@ -86,12 +106,12 @@ func ScrapeBusStopList(start, end string) (model.List, error) {
 
 //GetURLEncofing is hoge
 func GetURLEncofing(start, end string) (string, error) {
-	startSjis, err := sjis.UTF8ToSjis(start)
+	startSjis, err := sjis.ToSjis(start)
 	if err != nil {
 		log.Fatal(err)
 		return "", err
 	}
-	endSjis, err := sjis.UTF8ToSjis(end)
+	endSjis, err := sjis.ToSjis(end)
 	if err != nil {
 		log.Fatal(err)
 		return "", err
