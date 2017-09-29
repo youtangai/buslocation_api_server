@@ -28,22 +28,17 @@ func GetBusStopList(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	startList := result.StartMap
-	endList := result.EndMap
-	for key, value := range startList {
-		err := kvs.SetBusStopID(key, value)
-		if err != nil {
-			log.Fatal(err)
-			c.JSON(http.StatusInternalServerError, err)
-		}
+	startMap := result.StartMap
+	endMap := result.EndMap
+	err = SetMapRedis(startMap)
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, err)
 	}
-
-	for key, value := range endList {
-		err := kvs.SetBusStopID(key, value)
-		if err != nil {
-			log.Fatal(err)
-			c.JSON(http.StatusInternalServerError, err)
-		}
+	err = SetMapRedis(endMap)
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, err)
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -120,4 +115,18 @@ func GetURLEncofing(start, end string) (string, error) {
 	params.Set("stopname_f", startSjis)
 	params.Set("stopname_t", endSjis)
 	return params.Encode(), nil
+}
+
+//SetMapRedis is hoge
+func SetMapRedis(m map[string]string) error {
+	for key, value := range m {
+		// log.Println("key is", key)
+		// log.Println("value is", value)
+		err := kvs.SetBusStopID(key, value)
+		if err != nil {
+			log.Fatal(err)
+			return err
+		}
+	}
+	return nil
 }

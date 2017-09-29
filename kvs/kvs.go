@@ -52,3 +52,13 @@ func GetBusStopID(name string) (string, error) {
 	}
 	return id, nil
 }
+
+//GetAllKeys is hoge
+func GetAllKeys() ([]string, error) {
+	keys, err := c.Keys("*").Result()
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	return keys, nil
+}
