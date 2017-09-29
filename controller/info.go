@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"../model"
-	"../sjis"
+	"github.com/youtangai/buslocation_api_server/model"
+	"github.com/youtangai/buslocation_api_server/sjis"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gin-gonic/gin"

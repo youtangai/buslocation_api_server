@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./controller"
 	"github.com/gin-gonic/gin"
+	"github.com/youtangai/buslocation_api_server/controller"
 )
 
 func main() {

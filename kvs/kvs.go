@@ -3,8 +3,8 @@ package kvs
 import (
 	"log"
 
-	"../config"
 	"github.com/go-redis/redis"
+	"github.com/youtangai/buslocation_api_server/config"
 )
 
 var (
@@ -31,4 +31,24 @@ func Connection() error {
 
 	_, err := c.Ping().Result()
 	return err
+}
+
+//SetBusStopID is hoges
+func SetBusStopID(name, id string) error {
+	err := c.Set(name, id, 0).Err()
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	return nil
+}
+
+//GetBusStopID is hoge
+func GetBusStopID(name string) (string, error) {
+	id, err := c.Get(name).Result()
+	if err != nil {
+		log.Fatal(err)
+		return "", err
+	}
+	return id, nil
 }
