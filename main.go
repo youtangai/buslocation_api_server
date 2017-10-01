@@ -15,8 +15,7 @@ func main() {
 	})
 	router.GET("/list", controller.GetBusStopList)
 	router.GET("/info", controller.GetInfo)
-	router.GET("/keys", controller.GetAllKeys)
-	router.GET("/values", controller.GetAllValues)
+	router.GET("/kvs/all", controller.GetAllKeyValues)
 
 	router.Run(":8080")
 }
