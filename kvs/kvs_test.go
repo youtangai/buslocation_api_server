@@ -26,3 +26,13 @@ func TestGetBusStopID(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, val, id)
 }
+
+func TestExportRedis(t *testing.T) {
+	err := ExportRedis("redis.json")
+	assert.Nil(t, err)
+}
+
+func TestImportRedis(t *testing.T) {
+	err := ImportRedis("redis.json")
+	assert.Nil(t, err)
+}
