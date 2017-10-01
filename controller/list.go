@@ -24,7 +24,7 @@ func GetBusStopList(c *gin.Context) {
 	end := c.Query("end")
 	log.Println("start is", start)
 	log.Println("end is", end)
-	result, err := ScrapeBusStopList(start, end)
+	result, err := GetBusstopRedis(start, end)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,6 +42,43 @@ func GetBusStopList(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, result)
+}
+
+//GetBusstopRedis is hoge
+func GetBusstopRedis(start, end string) (model.List, error) {
+	list := model.List{}
+	s, err := GetBusStopMap(start)
+	if err != nil {
+		log.Fatal(err)
+		return model.List{}, err
+	}
+	e, err := GetBusStopMap(end)
+	if err != nil {
+		log.Fatal(err)
+		return model.List{}, err
+	}
+	list.StartMap = s
+	list.EndMap = e
+	return list, nil
+}
+
+//GetBusStopMap is hoge
+func GetBusStopMap(str string) (map[string]string, error) {
+	m := map[string]string{}
+	keys, err := kvs.GetKeys(str)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	for _, key := range keys {
+		val, err := kvs.GetBusStopID(key)
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+		m[key] = val
+	}
+	return m, nil
 }
 
 //ScrapeBusStopList is hogehoge
