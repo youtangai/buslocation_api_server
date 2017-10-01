@@ -10,7 +10,7 @@ import (
 
 //GetAllRedis is hoge
 func GetAllRedis(c *gin.Context) {
-	m, err := kvs.GetAllKeys()
+	m, err := kvs.GetAllKeyValues()
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusInternalServerError, err)
