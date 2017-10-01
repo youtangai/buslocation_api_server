@@ -1,7 +1,11 @@
 package kvs
 
 import (
+	"io/ioutil"
 	"log"
+	"os"
+
+	"encoding/json"
 
 	"github.com/go-redis/redis"
 	"github.com/youtangai/buslocation_api_server/config"
@@ -61,4 +65,63 @@ func GetAllKeys() ([]string, error) {
 		return nil, err
 	}
 	return keys, nil
+}
+
+//GetAllKeyValues is hoge
+func GetAllKeyValues() (map[string]string, error) {
+	m := map[string]string{}
+	keys, err := GetAllKeys()
+	log.Println("keys len is", len(keys))
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	for _, key := range keys {
+		value, err := GetBusStopID(key)
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+		m[key] = value
+	}
+	return m, nil
+}
+
+//ExportRedis is hoge
+func ExportRedis() error {
+	path := config.GetRedisPath()
+	m, err := GetAllKeyValues()
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	data, err := json.Marshal(m)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	ioutil.WriteFile(path, data, os.ModePerm)
+	return nil
+}
+
+//ImportRedis is hoge
+func ImportRedis() error {
+	path := config.GetRedisPath()
+	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	m := map[string]string{}
+	json.Unmarshal(file, &m)
+
+	for key, val := range m {
+		err := SetBusStopID(key, val)
+		if err != nil {
+			log.Fatal(err)
+			return err
+		}
+	}
+
+	return nil
 }
