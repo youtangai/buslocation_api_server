@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 
 	"encoding/json"
 
@@ -55,6 +56,22 @@ func GetBusStopID(name string) (string, error) {
 		return "", err
 	}
 	return id, nil
+}
+
+//GetKeys is hoge
+func GetKeys(keyword string) ([]string, error) {
+	result := []string{}
+	keys, err := GetAllKeys()
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	for _, key := range keys {
+		if strings.Contains(key, keyword) {
+			result = append(result, key)
+		}
+	}
+	return result, nil
 }
 
 //GetAllKeys is hoge
