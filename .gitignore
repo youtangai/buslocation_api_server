@@ -2,3 +2,6 @@ buslocation_api_server
 buslocation
 *.json
 compose/
+compile.sh
+docker-compose.yml
+Dockerfile
