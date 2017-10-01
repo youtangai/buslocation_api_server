@@ -28,11 +28,11 @@ func TestGetBusStopID(t *testing.T) {
 }
 
 func TestExportRedis(t *testing.T) {
-	err := ExportRedis("redis.json")
+	err := ExportRedis()
 	assert.Nil(t, err)
 }
 
 func TestImportRedis(t *testing.T) {
-	err := ImportRedis("redis.json")
+	err := ImportRedis()
 	assert.Nil(t, err)
 }

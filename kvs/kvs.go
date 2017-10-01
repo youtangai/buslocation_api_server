@@ -88,7 +88,8 @@ func GetAllKeyValues() (map[string]string, error) {
 }
 
 //ExportRedis is hoge
-func ExportRedis(path string) error {
+func ExportRedis() error {
+	path := config.GetRedisPath()
 	m, err := GetAllKeyValues()
 	if err != nil {
 		log.Fatal(err)
@@ -104,7 +105,8 @@ func ExportRedis(path string) error {
 }
 
 //ImportRedis is hoge
-func ImportRedis(path string) error {
+func ImportRedis() error {
+	path := config.GetRedisPath()
 	file, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
