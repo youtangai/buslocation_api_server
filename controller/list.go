@@ -63,8 +63,8 @@ func GetBusstopRedis(start, end string) (model.List, error) {
 }
 
 //GetBusStopMap is hoge
-func GetBusStopMap(str string) (map[string]string, error) {
-	m := map[string]string{}
+func GetBusStopMap(str string) ([]model.BusStop, error) {
+	stopSlice := []model.BusStop{}
 	keys, err := kvs.GetKeys(str)
 	if err != nil {
 		log.Fatal(err)
@@ -76,9 +76,12 @@ func GetBusStopMap(str string) (map[string]string, error) {
 			log.Fatal(err)
 			return nil, err
 		}
-		m[key] = val
+		busStop := model.BusStop{}
+		busStop.ID = key
+		busStop.Name = val
+		stopSlice = append(stopSlice, busStop)
 	}
-	return m, nil
+	return stopSlice, nil
 }
 
 //ScrapeBusStopList is hogehoge
@@ -89,8 +92,8 @@ func ScrapeBusStopList(start, end string) (model.List, error) {
 	}
 
 	var list model.List
-	startMap := map[string]string{}
-	endMap := map[string]string{}
+	startMap := []model.BusStop{}
+	endMap := []model.BusStop{}
 
 	doc, err := goquery.NewDocument(WEBHOST + SEARCHPATH + "?" + params)
 	if err != nil {
@@ -114,7 +117,10 @@ func ScrapeBusStopList(start, end string) (model.List, error) {
 				if err != nil {
 					log.Fatal(err)
 				}
-				startMap[key] = value
+				busStop := model.BusStop{}
+				busStop.ID = key
+				busStop.Name = value
+				startMap = append(startMap, busStop)
 			})
 		} else if name == "out" {
 			s.Find("option").Each(func(j int, s *goquery.Selection) {
@@ -126,7 +132,10 @@ func ScrapeBusStopList(start, end string) (model.List, error) {
 				if err != nil {
 					log.Fatal(err)
 				}
-				endMap[key] = value
+				busStop := model.BusStop{}
+				busStop.ID = key
+				busStop.Name = value
+				endMap = append(endMap, busStop)
 			})
 		}
 	})

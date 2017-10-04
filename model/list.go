@@ -2,6 +2,12 @@ package model
 
 //List is hogehoge
 type List struct {
-	StartMap map[string]string `json:"start_list"`
-	EndMap   map[string]string `json:"end_list"`
+	StartMap []BusStop `json:"start_list"`
+	EndMap   []BusStop `json:"end_list"`
+}
+
+//BusStop is hoge
+type BusStop struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
