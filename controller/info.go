@@ -20,8 +20,8 @@ const (
 
 //GetInfo is hogehoge
 func GetInfo(c *gin.Context) {
-	requestInfo := model.RequestInfo{}
-	c.BindJSON(&requestInfo)
+	requestInfo := new(model.RequestInfo)
+	c.BindJSON(requestInfo)
 	startID := requestInfo.StartID
 	endID := requestInfo.EndID
 	result, err := ScrapeInfos(startID, endID)

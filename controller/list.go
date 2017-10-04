@@ -20,8 +20,8 @@ const (
 
 //GetBusStopList is hogehoge
 func GetBusStopList(c *gin.Context) {
-	requestList := model.RequestList{}
-	c.BindJSON(&requestList)
+	requestList := new(model.RequestList)
+	c.BindJSON(requestList)
 	start := requestList.Start
 	end := requestList.End
 	log.Println("start is", start)

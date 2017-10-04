@@ -16,8 +16,8 @@ func main() {
 			"message": "pong",
 		})
 	})
-	router.GET("/list", controller.GetBusStopList)
-	router.GET("/info", controller.GetInfo)
+	router.POST("/list", controller.GetBusStopList)
+	router.POST("/info", controller.GetInfo)
 	router.GET("/kvs/all", controller.GetAllRedis)
 
 	router.Run(":8080")
