@@ -20,8 +20,10 @@ const (
 
 //GetBusStopList is hogehoge
 func GetBusStopList(c *gin.Context) {
-	start := c.Query("start")
-	end := c.Query("end")
+	requestList := model.RequestList{}
+	c.BindJSON(&requestList)
+	start := requestList.Start
+	end := requestList.End
 	log.Println("start is", start)
 	log.Println("end is", end)
 	result, err := GetBusstopRedis(start, end)
