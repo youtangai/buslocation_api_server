@@ -164,11 +164,11 @@ func GetURLEncofing(start, end string) (string, error) {
 }
 
 //SetMapRedis is hoge
-func SetMapRedis(m map[string]string) error {
-	for key, value := range m {
+func SetMapRedis(m []model.BusStop) error {
+	for _, busStop := range m {
 		// log.Println("key is", key)
 		// log.Println("value is", value)
-		err := kvs.SetBusStopID(key, value)
+		err := kvs.SetBusStopID(busStop.ID, busStop.Name)
 		if err != nil {
 			log.Fatal(err)
 			return err
