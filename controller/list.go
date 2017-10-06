@@ -79,8 +79,8 @@ func GetBusStopMap(str string) ([]model.BusStop, error) {
 			return nil, err
 		}
 		busStop := model.BusStop{}
-		busStop.ID = key
-		busStop.Name = val
+		busStop.ID = val
+		busStop.Name = key
 		stopSlice = append(stopSlice, busStop)
 	}
 	return stopSlice, nil
@@ -120,8 +120,8 @@ func ScrapeBusStopList(start, end string) (model.List, error) {
 					log.Fatal(err)
 				}
 				busStop := model.BusStop{}
-				busStop.ID = key
-				busStop.Name = value
+				busStop.ID = value
+				busStop.Name = key
 				startMap = append(startMap, busStop)
 			})
 		} else if name == "out" {
@@ -135,8 +135,8 @@ func ScrapeBusStopList(start, end string) (model.List, error) {
 					log.Fatal(err)
 				}
 				busStop := model.BusStop{}
-				busStop.ID = key
-				busStop.Name = value
+				busStop.ID = value
+				busStop.Name = key
 				endMap = append(endMap, busStop)
 			})
 		}
